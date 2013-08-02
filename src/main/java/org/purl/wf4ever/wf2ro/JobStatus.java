@@ -3,7 +3,9 @@ package org.purl.wf4ever.wf2ro;
 import java.net.URI;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Job status as JSON.
@@ -129,6 +131,7 @@ public class JobStatus {
     }
 
 
+    @XmlElement(name = "status")
     public State getState() {
         return state;
     }
@@ -169,6 +172,7 @@ public class JobStatus {
     }
 
 
+    @XmlTransient
     public Wf2ROService getService() {
         return service;
     }
