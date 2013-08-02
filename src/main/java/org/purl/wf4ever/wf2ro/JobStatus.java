@@ -1,6 +1,7 @@
 package org.purl.wf4ever.wf2ro;
 
 import java.net.URI;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -54,7 +55,7 @@ public class JobStatus {
     private State state;
 
     /** resources already uploaded. */
-    private List<URI> added;
+    private List<URI> added = Collections.emptyList();
 
     /** reason for the status, i.e. exception message. */
     private String reason;
