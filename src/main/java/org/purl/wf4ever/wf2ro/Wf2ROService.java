@@ -68,19 +68,19 @@ public class Wf2ROService implements Serializable {
     /**
      * Start a new transformation job.
      * 
-     * @param workflow
+     * @param workflowUri
      *            workflow URI
      * @param mimeType
      *            workflow MIME type
-     * @param ro
+     * @param roUri
      *            RO URI
      * @return a status of the job, which can later be refreshed
      * @throws ServiceException
      *             when the service throws an unexpected response
      */
-    public JobStatus createImmutable(URI workflow, String mimeType, URI ro)
+    public JobStatus transform(URI workflowUri, String mimeType, URI roUri)
             throws ServiceException {
-        JobConfig config = new JobConfig(workflow, mimeType, ro, token);
+        JobConfig config = new JobConfig(workflowUri, mimeType, roUri, token);
         WebResource webResource = getClient().resource(serviceUri);
         ClientResponse response = webResource.type(MediaType.APPLICATION_JSON_TYPE).post(ClientResponse.class, config);
         if (response.getClientResponseStatus().equals(Status.CREATED)) {
