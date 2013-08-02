@@ -83,7 +83,7 @@ public class Wf2ROService implements Serializable {
         JobConfig config = new JobConfig(workflowUri, mimeType, roUri, token);
         WebResource webResource = getClient().resource(serviceUri);
         ClientResponse response = webResource.type(MediaType.APPLICATION_JSON_TYPE).post(ClientResponse.class, config);
-        if (response.getClientResponseStatus().equals(Status.CREATED)) {
+        if (!response.getClientResponseStatus().equals(Status.CREATED)) {
             throw new ServiceException("Service returned response " + response.toString());
         }
         URI job = response.getLocation();
