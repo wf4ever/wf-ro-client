@@ -1,5 +1,6 @@
 package org.purl.wf4ever.wf2ro;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
@@ -15,7 +16,11 @@ import javax.xml.bind.annotation.XmlTransient;
  * 
  */
 @XmlRootElement
-public class JobStatus {
+public class JobStatus implements Serializable {
+
+    /** id. */
+    private static final long serialVersionUID = 8325195357471360031L;
+
 
     /**
      * The job state.
@@ -26,7 +31,7 @@ public class JobStatus {
     public enum State {
         /** The job has started and is running. */
         RUNNING,
-        /** The job has finished succesfully. */
+        /** The job has finished successfully. */
         DONE,
         /** The job has been cancelled by the user. */
         CANCELLED,
