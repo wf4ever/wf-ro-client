@@ -2,7 +2,7 @@ package org.purl.wf4ever.wf2ro;
 
 import java.io.Serializable;
 import java.net.URI;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -60,7 +60,7 @@ public class JobStatus implements Serializable {
     private State state;
 
     /** resources already uploaded. */
-    private List<URI> added = Collections.emptyList();
+    private List<URI> added = new ArrayList<>();
 
     /** reason for the status, i.e. exception message. */
     private String reason;
