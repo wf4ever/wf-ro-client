@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.purl.wf4ever.wf-ro</groupId>
 	<artifactId>wf-ro-client</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<name>A client for the workflow-RO transformation service</name>
 	<packaging>jar</packaging>
 	<properties>
@@ -64,7 +64,7 @@
 	</build>
 	<scm>
 		<developerConnection>scm:git:git@github.com:wf4ever/wf-ro-client.git</developerConnection>
-		<tag>wf-ro-client-1.0.0</tag>
+		<tag>HEAD</tag>
 	</scm>
 	<repositories>
 		<repository>
