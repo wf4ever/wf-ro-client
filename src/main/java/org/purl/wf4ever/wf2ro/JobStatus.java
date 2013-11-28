@@ -5,9 +5,10 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+
+import com.sun.xml.txw2.annotation.XmlElement;
 
 /**
  * Job status as JSON.
@@ -18,20 +19,16 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 public class JobStatus implements Serializable {
 
-    /** id. */
-    private static final long serialVersionUID = 8325195357471360031L;
-
-
     /**
-     * The job state.
-     * 
-     * @author piotrekhol
      * 
      */
+    private static final long serialVersionUID = 6321661813309298438L;
+
+
     public enum State {
         /** The job has started and is running. */
         RUNNING,
-        /** The job has finished successfully. */
+        /** The job has finished succesfully. */
         DONE,
         /** The job has been cancelled by the user. */
         CANCELLED,
@@ -45,8 +42,7 @@ public class JobStatus implements Serializable {
             return super.toString().toLowerCase();
         };
     }
-
-
+    
     /** workflow URI. */
     private URI resource;
 
@@ -60,17 +56,21 @@ public class JobStatus implements Serializable {
     private State state;
 
     /** resources already uploaded. */
-    private List<URI> added = new ArrayList<>();
+    private List<URI> added;
 
     /** reason for the status, i.e. exception message. */
     private String reason;
+
+    /** Which folders to extract to */
+    private JobExtractFolders extract;
+
 
     /** job status URI. */
     private URI uri;
 
     /** service. */
     private Wf2ROService service;
-
+    
 
     /**
      * Default empty constructor.
@@ -87,6 +87,8 @@ public class JobStatus implements Serializable {
      *            workflow URI
      * @param format
      *            workflow format URI
+     * @param extract
+     *            Which resources to extract to which folders
      * @param ro
      *            RO URI
      * @param state
@@ -96,10 +98,11 @@ public class JobStatus implements Serializable {
      * @param reason
      *            reason for the status, i.e. exception message
      */
-    public JobStatus(URI resource, String format, URI ro, State state, List<URI> added, String reason) {
+    public JobStatus(URI resource, String format, JobExtractFolders extract, URI ro, State state, List<URI> added, String reason) {
         super();
         this.resource = resource;
         this.format = format;
+        this.setExtract(extract);
         this.ro = ro;
         this.state = state;
         this.added = added;
@@ -137,7 +140,7 @@ public class JobStatus implements Serializable {
     }
 
 
-    @XmlElement(name = "status")
+    @XmlElement("status")
     public State getState() {
         return state;
     }
@@ -149,7 +152,10 @@ public class JobStatus implements Serializable {
 
 
     public List<URI> getAdded() {
-        return added;
+        if (added == null) { 
+            added = new ArrayList<>();
+        }
+        return added; 
     }
 
 
@@ -165,6 +171,16 @@ public class JobStatus implements Serializable {
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+
+    public JobExtractFolders getExtract() {
+        return extract;
+    }
+
+
+    public void setExtract(JobExtractFolders extract) {
+        this.extract = extract;
     }
 
 
@@ -187,7 +203,7 @@ public class JobStatus implements Serializable {
     public void setService(Wf2ROService service) {
         this.service = service;
     }
-
+    
 
     /**
      * Reload the properties from the Wf-RO service.
@@ -200,5 +216,7 @@ public class JobStatus implements Serializable {
         this.resource = status.getResource();
         this.ro = status.getRo();
         this.state = status.getState();
+        this.extract = status.getExtract();
     }
+
 }

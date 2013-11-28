@@ -64,9 +64,8 @@ public class Wf2ROService implements Serializable {
         return client;
     }
 
-
     /**
-     * Start a new transformation job.
+     * Start a new transformation job. 
      * 
      * @param workflowUri
      *            workflow URI
@@ -80,7 +79,35 @@ public class Wf2ROService implements Serializable {
      */
     public JobStatus transform(URI workflowUri, String mimeType, URI roUri)
             throws ServiceException {
-        JobConfig config = new JobConfig(workflowUri, mimeType, roUri, token);
+        return transform(workflowUri, mimeType, roUri, null, null, null, null);
+    }
+    
+
+    /**
+     * Start a new transformation job and places extracted resources in specified folders.
+     * 
+     * @param workflowUri
+     *            workflow URI
+     * @param mimeType
+     *            workflow MIME type
+     * @param roUri
+     *            RO URI
+     * @param mainFolder
+     *            RO Folder where to store the extracted main workflow
+     * @param nestedFolder
+     *            RO Folder where to store the extracted nested workflows
+     * @param scriptsFolder
+     *            RO Folder where to store the extracted scripts
+     * @param servicesFolder
+     *            RO Folder where to store the extracted services
+     * @return a status of the job, which can later be refreshed
+     * @throws ServiceException
+     *             when the service throws an unexpected response
+     */
+    public JobStatus transform(URI workflowUri, String mimeType, URI roUri, URI mainFolder, URI nestedFolder, URI scriptsFolder, URI servicesFolder)
+            throws ServiceException {
+        JobExtractFolders extract = new JobExtractFolders(mainFolder, nestedFolder, scriptsFolder, servicesFolder);
+        JobConfig config = new JobConfig(workflowUri, mimeType, roUri, token, extract);
         WebResource webResource = getClient().resource(serviceUri);
         ClientResponse response = webResource.type(MediaType.APPLICATION_JSON_TYPE).post(ClientResponse.class, config);
         if (!response.getClientResponseStatus().equals(Status.CREATED)) {

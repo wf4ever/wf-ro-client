@@ -1,5 +1,6 @@
 package org.purl.wf4ever.wf2ro;
 
+import java.io.Serializable;
 import java.net.URI;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -11,12 +12,18 @@ import javax.xml.bind.annotation.XmlRootElement;
  * 
  */
 @XmlRootElement
-public class JobConfig {
+public class JobConfig implements Serializable {
+
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3237143648217292576L;
 
     /** workflow URI. */
     private URI resource;
 
-    /** workflow MIME type. */
+    /** workflow format MIME type. */
     private String format;
 
     /** RO URI. */
@@ -24,6 +31,9 @@ public class JobConfig {
 
     /** RODL access token. */
     private String token;
+
+    /** Folders to extract into */
+    private JobExtractFolders extract;
 
 
     /**
@@ -40,18 +50,21 @@ public class JobConfig {
      * @param resource
      *            workflow URI
      * @param format
-     *            workflow MIME type
+     *            workflow format URI
      * @param ro
      *            RO URI
      * @param token
      *            RODL access token
+     * @param extract
+     *            Which resources to extract to which folders
      */
-    public JobConfig(URI resource, String format, URI ro, String token) {
+    public JobConfig(URI resource, String format, URI ro, String token, JobExtractFolders extract) {
         super();
         this.resource = resource;
         this.format = format;
         this.ro = ro;
         this.token = token;
+        this.setExtract(extract);
     }
 
 
@@ -63,7 +76,6 @@ public class JobConfig {
     public void setResource(URI resource) {
         this.resource = resource;
     }
-
 
     public String getFormat() {
         return format;
@@ -92,5 +104,18 @@ public class JobConfig {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+
+    public JobExtractFolders getExtract() {
+        if (extract == null) {
+            extract = new JobExtractFolders();
+        }
+        return extract;
+    }
+
+
+    public void setExtract(JobExtractFolders extract) {
+        this.extract = extract;
     }
 }
